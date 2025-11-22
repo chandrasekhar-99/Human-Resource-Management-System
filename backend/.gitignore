@@ -1,0 +1,54 @@
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build files
+dist/
+build/
+
+# Sequelize auto-generated files (optional)
+migrations/
+seeders/
+
+# Coverage folders
+coverage/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# VS Code
+.vscode/
+
+# Cache
+.cache/
+.npm/
+
+# Lock files (optional, depending on team)
+package-lock.json
+yarn.lock
+
+# TypeScript (if using)
+*.tsbuildinfo
+
+# Render / Deploy artifacts
+.vercel/
+render.yaml
