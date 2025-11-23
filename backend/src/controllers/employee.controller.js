@@ -1,11 +1,12 @@
 const {Employee, Team} = require('../models');
 const {success, error} = require('../utils/response');
+const {addLog} = require('../utils/activityLog');
 
 
 
 const getAllEmployees = async (req, res) => {
   try {
-    const employees = await Employee.findAll();
+    const employees = await Employee.findAll({ include: [{ model: Team, as: 'teams' }] });
     return success(res, 'Employees retrieved successfully', employees, 200);
   } catch (err) {
     console.log("getAllEmployees error:", err);
@@ -17,6 +18,8 @@ const createEmployee = async (req, res) => {
   try {
     const {name, email, position} = req.body;
     const newEmployee = await Employee.create({name, email, position});
+    
+    await addLog(req.user.id, `created employee with ID ${newEmployee.id}.`);
     return success(res, 'Employee created successfully', newEmployee, 201);
   } catch (err) {
     console.log("createEmployee error:", err);
@@ -32,6 +35,7 @@ const deleteEmployee = async (req, res) => {
       return error(res, 'Employee not found', 404);
     }
     await employee.destroy();
+    await addLog(req.user.id, `deleted employee with ID ${id}.`);
     return success(res, 'Employee deleted successfully', null, 200);
   } catch (err) {
     console.log("deleteEmployee error:", err);
@@ -54,6 +58,7 @@ const assignEmployeeToTeam = async (req, res) => {
     }
 
     await employee.addTeam(team);
+    await addLog(req.user.id, `assigned employee with ID ${employeeId} to team with ID ${teamId}.`);
     return success(res, 'Employee assigned to team successfully', null, 200);
   } catch (err) {
     console.log("assignEmployeeToTeam error:", err);

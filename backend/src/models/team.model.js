@@ -1,24 +1,28 @@
-const {DataTypes} = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
 const Team = sequelize.define('Team', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement: true,
-    allowNull: false
+    autoIncrement: true
   },
   name: {
     type: DataTypes.STRING,
     allowNull: false
-  },  
+  },
   description: {
     type: DataTypes.TEXT,
     allowNull: false
   },
   createdBy: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
+    references: {
+      model: 'users',
+      key: 'id'
+    },
+    onDelete: 'CASCADE'
   }
 }, {
   tableName: 'teams',

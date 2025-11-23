@@ -1,30 +1,41 @@
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+const { verifyToken } = require('../utils/token');
 const { User } = require('../models');
 const { error } = require('../utils/response');
 
-const authMiddleware = async (req, res, next) => {
+module.exports = async (req, res, next) => {
   try {
-    const authHeader = req.headers.authorization;
-
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return error(res, 'Authorization header missing or invalid', 401);
+    // Get token from header or query
+    let token = null;
+    const header = req.headers['authorization'];
+    
+    if (header) {
+      const parts = header.split(' ');
+      if (parts.length === 2 && parts[0] === 'Bearer') {
+        token = parts[1];
+      } else {
+        return error(res, 'Invalid authorization format. Use Bearer <token>', 401);
+      }
+    } else if (req.query && req.query.token) {
+      token = req.query.token;
     }
 
-    const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    // Fetch the full user object from DB
-    const user = await User.findByPk(decoded.id);
-    if (!user) {
-      return error(res, 'User not found', 401);
+    if (!token) {
+      return error(res, 'Token missing. Provide in Authorization header or ?token= query', 401);
     }
 
-    req.user = user; 
+    // Verify token
+    const payload = verifyToken(token);
+
+    // Find user
+    const user = await User.findByPk(payload.id);
+    if (!user) return error(res, 'Invalid token user', 401);
+
+    // Attach user to request
+    req.user = { id: user.id, email: user.email, role: user.role || 'user' };
+
     next();
   } catch (err) {
-    return error(res, 'Invalid token', 401);
+    console.error('Auth Middleware Error:', err.message);
+    return error(res, 'Invalid or expired token', 401);
   }
 };
-
-module.exports = authMiddleware;

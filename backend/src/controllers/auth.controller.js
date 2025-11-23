@@ -1,7 +1,8 @@
 const User = require('../models/user.model');
-const generateToken = require('../utils/token');
+const {generateToken} = require('../utils/token');
 const {hashPassword, comparePassword} = require('../utils/hash');
 const {success, error} = require('../utils/response');
+const {addLog} = require('../utils/activityLog');
 
 
 const signUp = async (req, res) => {
@@ -22,7 +23,7 @@ const signUp = async (req, res) => {
     return success(res, "User registered successfully", { token }, 201);
   } catch (err) {
     console.log(err);
-    return error(res, "Internal Server Error", 500);
+    return error(res, err.message);
   }
 };
 
@@ -43,13 +44,23 @@ const login = async (req, res) => {
     }
 
     const token = generateToken(user);
+
+    await addLog(user.id, `logged in.`);
     return success(res, "Login successful", { token }, 200);
   } catch (err) {
-    return error(res, "Internal Server Error", 500);
+    return error(res, err.message);
   }
 };
 
 const logout = async (req, res) => {
-  return success(res, "Logout successful", null, 200);
+  try{
+    if (!req.user)
+      return error(res, 'Unauthenticated', 401);
+    
+    await addLog(req.user.id, `logged out.`);
+    return success(res, "Logout successful", null, 200);
+  } catch (err) {
+    return error(res, err.message);
+  }
 };
 module.exports = {signUp, login, logout};
