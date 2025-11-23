@@ -1,18 +1,27 @@
-const { sequelize } = require('./models');
-require("dotenv").config();
-const app = require("./app");
-const {info, warn, error} = require('./utils/logger');
+require('dotenv').config();
+const app = require('./app');
+const sequelize = require('./config/db');
+const { info, error: logError } = require('./utils/logger');
 
 const PORT = process.env.PORT || 5000;
 
 (async function start() {
   try {
     await sequelize.authenticate();
-    info('DB connected');
-    await sequelize.sync({ alter: true });
-    app.listen(PORT, () => info(`Server started on http://localhost:${PORT}`));
+    info('Database connected successfully!');
+
+   
+    if (process.env.NODE_ENV !== 'production') {
+      await sequelize.sync({ alter: true });
+      info('Database synced (development mode)');
+    } else {
+      info('Production mode: Skipping automatic database sync');
+      
+    }
+
+    app.listen(PORT, () => info(` Server running at http://localhost:${PORT}`));
   } catch (err) {
-    error('Failed to start:', err);
+    logError(' Failed to start server:', err);
     process.exit(1);
   }
 })();

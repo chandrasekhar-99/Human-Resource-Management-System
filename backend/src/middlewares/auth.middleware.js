@@ -4,7 +4,7 @@ const { error } = require('../utils/response');
 
 module.exports = async (req, res, next) => {
   try {
-    // Get token from header or query
+    
     let token = null;
     const header = req.headers['authorization'];
     
@@ -23,14 +23,14 @@ module.exports = async (req, res, next) => {
       return error(res, 'Token missing. Provide in Authorization header or ?token= query', 401);
     }
 
-    // Verify token
+   
     const payload = verifyToken(token);
 
-    // Find user
+ 
     const user = await User.findByPk(payload.id);
     if (!user) return error(res, 'Invalid token user', 401);
 
-    // Attach user to request
+  
     req.user = { id: user.id, email: user.email, role: user.role || 'user' };
 
     next();
