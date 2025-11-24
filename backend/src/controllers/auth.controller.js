@@ -20,7 +20,9 @@ const signUp = async (req, res) => {
     const newUser = await User.create({name, email, password: hashedPassword});
     const token = generateToken(newUser);
 
-    return success(res, "User registered successfully", { token }, 201);
+    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax' });
+
+    return success(res, "User registered successfully", { user: newUser }, 201);
   } catch (err) {
     console.log(err);
     return error(res, err.message);
@@ -45,8 +47,10 @@ const login = async (req, res) => {
 
     const token = generateToken(user);
 
+    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax' });
+
     await addLog(user.id, `logged in.`);
-    return success(res, "Login successful", { token }, 200);
+    return success(res, "Login successful", { user }, 200);
   } catch (err) {
     return error(res, err.message);
   }
@@ -56,6 +60,8 @@ const logout = async (req, res) => {
   try{
     if (!req.user)
       return error(res, 'Unauthenticated', 401);
+
+    res.clearCookie('token', { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax' });
     
     await addLog(req.user.id, `logged out.`);
     return success(res, "Logout successful", null, 200);
