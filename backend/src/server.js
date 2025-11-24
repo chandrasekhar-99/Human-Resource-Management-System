@@ -15,9 +15,10 @@ const PORT = process.env.PORT || 5000;
       await sequelize.sync({ alter: true });
       info('Database synced (development mode)');
     } else {
-      info('Production mode: Skipping automatic database sync');
-      
+      await sequelize.sync(); // create tables in production
+      info('Database synced (production mode)');
     }
+
 
     app.listen(PORT, () => info(` Server running at http://localhost:${PORT}`));
   } catch (err) {
