@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import Teams from '../pages/Teams.jsx';
 import Employees from '../pages/Employees.jsx';
+import Logs from '../components/Logs.jsx';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -56,6 +57,11 @@ const Dashboard = () => {
         >
           Add Employee
         </button>
+      </div>
+
+      {/* Logs Section */}
+      <div className="bg-white p-5 rounded-lg shadow-md mb-6">
+        <Logs />
       </div>
     </div>
   );
