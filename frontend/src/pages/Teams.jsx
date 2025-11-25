@@ -8,8 +8,8 @@ const Teams = () => {
 
   const fetchTeams = async () => {
     try {
-      const response = await api.get('/api/teams');
-      setTeams(response.data);
+      const response = await api.get('/api/teams',{ withCredentials: true });
+      setTeams(response.data.data);
     } catch (err) {
       setError('Failed to fetch teams: ' + err.message);
     } finally {

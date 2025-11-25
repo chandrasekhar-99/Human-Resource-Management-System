@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
-import Teams from './Teams.jsx';
+import Teams from '../pages/Teams.jsx';
+import Employees from '../pages/Employees.jsx';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -33,6 +34,11 @@ const Dashboard = () => {
       {/* Teams Section */}
       <div className="bg-white p-5 rounded-lg shadow-md mb-6">
         <Teams />
+      </div>
+
+
+      <div className="bg-white p-5 rounded-lg shadow-md mb-6">
+        <Employees />
       </div>
 
       {/* Actions Section */}
