@@ -13,7 +13,7 @@ const Login = () => {
     setError(null);
 
     try {
-      const response = await api.post("/api/auth/login", { email, password });
+      const response = await api.post("/api/auth/login", { email, password },{ withCredentials: true } );
       if (response.status === 200) {
         navigate("/dashboard");
       }
