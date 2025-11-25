@@ -26,18 +26,18 @@ const Teams = () => {
 
   
   return (
-    <div>
-      <h1>Teams</h1>
-      <ul>
-        {teams.map((team) => 
-          <>
-            <li key={team.id}>{team.name}</li>
-            <li key={team.id}>{team.description}</li>
-          </>
-        )}
-      </ul>
-    </div>
-  );
+  <div>
+    <h1>Teams</h1>
+    <ul>
+      {teams.map((team) => (
+        <li key={team.id}>
+          <strong>{team.name}</strong> — {team.description}
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
 };
 
 export default Teams;

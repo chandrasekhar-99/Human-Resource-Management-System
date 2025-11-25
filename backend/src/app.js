@@ -6,10 +6,11 @@ const authRoutes = require('./routes/auth.routes');
 const employeeRoutes = require('./routes/employee.routes');
 const teamRoutes = require('./routes/team.routes');
 const logRoutes = require('./routes/log.routes');
+require('dotenv').config();
 
 const app = express();
 
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({ origin: process.env.CORS_ORIGIN, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -21,7 +22,7 @@ app.use('/api/logs', logRoutes);
 
 
 app.get('/', (req, res) => {
-  res.send('HRMS Backend is running 🚀');
+  res.send('HRMS Backend is running');
 });
 
 module.exports = app;

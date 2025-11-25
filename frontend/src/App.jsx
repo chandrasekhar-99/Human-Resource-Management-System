@@ -12,13 +12,13 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={
+        <Route path="/dashboard" element={
           <ProtectedRoute>
             <Dashboard />
           </ProtectedRoute>
         } />
 
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         
         <Route path="/teams" element={<Teams />} />

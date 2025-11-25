@@ -26,19 +26,20 @@ const Employees = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div>
-      <h1>Employees</h1>
-      <ul>
-        {employees.map((employee) => 
-          <>    
-            <li key={employee.id}>{employee.name}</li>
-            <li key={employee.id}>{employee.email}</li>
-            <li key={employee.id}>{employee.position}</li>
-          </>
-        )}
-      </ul>
-    </div>
-  );
+  <div>
+    <h1>Employees</h1>
+    <ul>
+      {employees.map((employee) => (
+        <li key={employee.id}>
+          <p>{employee.name}</p>
+          <p>{employee.email}</p>
+          <p>{employee.position}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
 };
 
 export default Employees;
