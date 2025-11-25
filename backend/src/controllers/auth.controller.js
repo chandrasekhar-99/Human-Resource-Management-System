@@ -69,4 +69,19 @@ const logout = async (req, res) => {
     return error(res, err.message);
   }
 };
-module.exports = {signUp, login, logout};
+
+const me = async (req, res) => {
+  try {
+    if (!req.user) return error(res, "Unauthorized", 401);
+
+    return success(res, "User info", {
+      id: req.user.id,
+      email: req.user.email,
+      role: req.user.role
+    });
+  } catch (err) {
+    return error(res, err.message, 500);
+  }
+};
+
+module.exports = {signUp, login, logout, me};

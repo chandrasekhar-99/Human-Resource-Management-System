@@ -3,30 +3,34 @@ import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 
 
-
-const Login = () => {
+const Signup = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post("/api/auth/login", { email, password });
-      if (response.status === 200) {
-        navigate("/dashboard");
+      const response = await api.post("/api/auth/signup", { name, email, password });
+      if (response.status === 201) {
+        navigate("/login");
       }
     } catch (error) {
-      console.error("Login failed:", error);
-      setError("Login failed. Please try again."+ error.message);
+      console.error("Signup failed:", error);
+      alert("Signup failed. Please try again.");
     }
   };
 
-  if (error) return <p>{error}</p>;
-
   return (
     <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Name"
+        required
+      />
       <input
         type="email"
         value={email}
@@ -41,9 +45,9 @@ const Login = () => {
         placeholder="Password"
         required
       />
-      <button type="submit">Login</button>
+      <button type="submit">Sign Up</button>
     </form>
   );
 };
 
-export default Login;
+export default Signup;
