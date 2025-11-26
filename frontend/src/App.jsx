@@ -1,9 +1,9 @@
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import Dashboard from './pages_temp/Dashboard.jsx'
-import Signup from './pages_temp/SignUp.jsx';
-import Login from './pages_temp/Login.jsx';
-import Teams from './pages_temp/Teams.jsx';
-import Employees from './pages_temp/Employees.jsx';
+import Dashboard from './pages/Dashboard.js'
+import Signup from './pages/SignUp.js';
+import Login from './pages/Login.js';
+import Teams from './pages/Teams.jsx';
+import Employees from './pages/Employees.js';
 import EmployeeForm from './components/EmployeeForm.jsx';
 import TeamForm from './components/TeamForm.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
