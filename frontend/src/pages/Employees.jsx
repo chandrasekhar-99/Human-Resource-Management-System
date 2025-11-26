@@ -9,7 +9,7 @@ const Employees = () => {
 
   const fetchEmployees = async () => {
     try {
-      const response = await api.get('/api/employees',{ withCredentials: true });
+      const response = await api.get('/employees',{ withCredentials: true });
       setEmployees(response.data.data);
     } catch (err) {
       setError('Failed to fetch employees: ' + err.message);

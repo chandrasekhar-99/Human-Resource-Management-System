@@ -10,7 +10,7 @@ const EmployeeForm = ({ onSubmit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post('/api/employees/create', { name, email, position });
+      const response = await api.post('/employees/create', { name, email, position });
       if (response.status === 201) {
         alert('Employee created successfully!');
         setName('');

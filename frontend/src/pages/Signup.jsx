@@ -13,7 +13,7 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      const res = await api.post("/api/auth/signup", { name, email, password },{ withCredentials: true } );
+      const res = await api.post("/auth/signup", { name, email, password },{ withCredentials: true } );
 
       if (res.status === 201) {
         navigate("/login");

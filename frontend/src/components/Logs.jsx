@@ -16,7 +16,7 @@ const Logs = () => {
       try {
         setLoading(true);
 
-        const response = await api.get('/api/logs', { withCredentials: true, params: {page, limit } });
+        const response = await api.get('/logs', { withCredentials: true, params: {page, limit } });
         const data = response.data.data;
         setLogs(data.rows);
         setTotalPages(Math.ceil(data.count / limit));

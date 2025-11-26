@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import api from '../services/api';
-import Teams from '../pages/Teams.jsx';
-import Employees from '../pages/Employees.jsx';
+import api from '../services/api.js';
+import Teams from './Teams.jsx';
+import Employees from './Employees.jsx';
 import Logs from '../components/Logs.jsx';
 
 const Dashboard = () => {
@@ -9,7 +9,7 @@ const Dashboard = () => {
 
   const handleLogout = async () => {
     try {
-      await api.post('/api/auth/logout');
+      await api.post('/auth/logout');
       navigate('/login');
     } catch (err) {
       console.error('Logout failed:', err);

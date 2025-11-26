@@ -9,7 +9,7 @@ const TeamForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post('/api/teams/createTeam', { name, description });
+      const response = await api.post('/teams/createTeam', { name, description });
       if (response.status === 201) {
         alert('Team created successfully!');
         setName('');
