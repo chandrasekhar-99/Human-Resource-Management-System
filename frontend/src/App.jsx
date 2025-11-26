@@ -12,12 +12,6 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/dashboard" element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        } />
-
         <Route path="/" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         
@@ -26,6 +20,12 @@ const App = () => {
 
         <Route path="/add-employee" element={<EmployeeForm />} />
         <Route path="/add-team" element={<TeamForm />} />
+        
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        } />
       </Routes>
     </Router>
   );

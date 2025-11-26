@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import { Link } from "react-router-dom";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -68,9 +69,9 @@ const Signup = () => {
 
         <p className="text-center text-sm mt-4">
           Already have an account?
-          <a href="/login" className="text-indigo-600 hover:underline ml-1">
+          <Link to="/login" className="text-indigo-600 hover:underline ml-1">
             Login
-          </a>
+          </Link>
         </p>
       </div>
     </div>

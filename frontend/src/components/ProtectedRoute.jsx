@@ -1,34 +1,29 @@
-import {useEffect, useState} from 'react';
-import {Navigate} from 'react-router-dom';
-import api from '../services/api';
+import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
+import api from "../services/api";
 
-const ProtectedRoute = ({children}) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
-  const [loading, setLoading] = useState(true);
+const ProtectedRoute = ({ children }) => {
+  const [authenticated, setAuthenticated] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await api.get('/auth/me');
-        if (response.status === 200) {
-          setIsAuthenticated(true);
-        } else {
-          setIsAuthenticated(false);
-        }
-      } catch (error) {
-        setIsAuthenticated(false);
-        setError('Authentication check failed: ' + error.message);
-      } finally {
-        setLoading(false);
-      } 
+        await api.get("/auth/me");
+        setAuthenticated(true);
+      } catch (err) {
+        setError('Authentication check failed: ' + err.message);
+        setAuthenticated(false);
+      }
     };
     checkAuth();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
-  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if (authenticated === null) return <p>Loading...</p>;
+  if (!authenticated) {
+    console.error("ProtectedRoute error:", error?.message || error);
+    return <Navigate to="/login" />;
+  }
   return children;
 };
 
