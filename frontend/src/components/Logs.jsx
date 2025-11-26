@@ -2,28 +2,32 @@ import { useEffect, useState } from 'react';
 import api from '../services/api';
 
 const Logs = () => {
-  const [logs, setLogs] = useState([]);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [limit] = useState(10); 
+  const [logs, setLogs] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
 
-  const fetchLogs = async () => {
-    try {
-      const response = await api.get('/api/logs', { withCredentials: true, params: {page, limit } });
-      setLogs(response.data.data.rows);
-      setTotalPages(Math.ceil(response.data.data.count / limit));
-    } catch (err) {
-      setError('Failed to fetch logs: ' + err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  
 
   useEffect(() => {
+    const fetchLogs = async () => {
+      try {
+        setLoading(true);
+
+        const response = await api.get('/api/logs', { withCredentials: true, params: {page, limit } });
+        const data = response.data.data;
+        setLogs(data.rows);
+        setTotalPages(Math.ceil(data.count / limit));
+      } catch (err) {
+        setError('Failed to fetch logs: ' + err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchLogs();
-  }, [page]);
+  }, [page, limit]);
 
   const handlePrev = () => {
     if (page > 1) setPage((prev) => prev - 1);
@@ -31,6 +35,9 @@ const Logs = () => {
   const handleNext = () => {
     if (page < totalPages) setPage((prev) => prev + 1);
   };
+
+  
+
 
 
   if (loading)
