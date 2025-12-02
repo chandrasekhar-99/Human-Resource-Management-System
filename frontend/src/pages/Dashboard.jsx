@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
+import { SignOut, User } from "@phosphor-icons/react";
 import api from '../services/api.js';
-import Teams from './Teams.jsx';
+import Teams from './Teams.jsx'
 import Employees from './Employees.jsx';
 import Logs from '../components/Logs.jsx';
 
@@ -22,14 +23,18 @@ const Dashboard = () => {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-semibold text-gray-800">
-          Dashboard
+          HRMS Dashboard
         </h1>
-        <button
-          onClick={handleLogout}
-          className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition font-medium"
-        >
-          Logout
-        </button>
+        <div className="flex items-center gap-4">
+          <User size={28} />
+          <button
+            onClick={handleLogout}
+            className="px-2 py-1 border-2 border-blue-400 text-blue-400 hover:border-blue-600 hover:text-blue-600 rounded-lg transition font-medium flex items-center gap-2 cursor-pointer"
+          >
+            <SignOut size={28} />
+            Logout
+          </button>
+        </div>
       </div>
 
       {/* Teams Section */}

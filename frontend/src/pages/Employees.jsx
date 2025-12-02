@@ -26,14 +26,14 @@ const Employees = () => {
   if (error) return <p>{error}</p>;
 
   return (
-  <div>
-    <h1>Employees</h1>
-    <ul>
+  <div className='m-4'>
+    <h1 className="text-xl font-semibold text-gray-800">Employees</h1>
+    <ul className='flex flex-col gap-2'>
       {employees.map((employee) => (
-        <li key={employee.id}>
-          <p>{employee.name}</p>
-          <p>{employee.email}</p>
-          <p>{employee.position}</p>
+        <li key={employee.id} className="border p-4 rounded-lg shadow-md ">
+          <p className="font-medium text-lg">{employee.name}</p>
+          <p className="text-gray-600">{employee.email}</p>
+          <p className="text-gray-600">{employee.position}</p>
         </li>
       ))}
     </ul>
